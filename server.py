@@ -1,3 +1,24 @@
+"""
+OCR MCP Server
+==============
+
+Espone un tool MCP `perform_ocr` che estrae il testo da documenti scansionati
+(PDF, JPG, PNG, TIFF, BMP, WEBP) usando l'API di OCR.space.
+
+Progettato per essere collegato come MCP server a un agente Neurons, così da
+superare il limite dei Function Call "classici" (che accettano solo parametri
+testuali/URL) e ricevere invece il CONTENUTO del file caricato in chat,
+codificato in base64.
+
+Variabili d'ambiente richieste:
+    OCR_SPACE_API_KEY   -> API key di OCR.space (https://ocr.space/ocrapi)
+
+Esecuzione locale (stdio, per test):
+    python server.py
+
+Esecuzione come servizio HTTP (per deploy su Cloud Run / esposizione a Neurons):
+    python server.py --http --port 8080
+"""
 
 import argparse
 import base64
@@ -9,7 +30,7 @@ import requests
 from dotenv import load_dotenv
 from fastmcp import FastMCP
 
-load_dotenv()  
+load_dotenv()  # legge il file .env nella stessa cartella, se presente
 
 OCR_SPACE_ENDPOINT = "https://api.ocr.space/parse/image"
 OCR_SPACE_API_KEY = os.environ.get("OCR_SPACE_API_KEY", "")
@@ -123,9 +144,9 @@ def perform_ocr(
     payload = {
         "apikey": OCR_SPACE_API_KEY,
         "base64Image": data_uri,
-        "OCREngine": "2",
-        "scale": "true",
-        "isTable": "true",
+        "OCREngine": 2,
+        "scale": True,
+        "isTable": True,
     }
     if language != "auto":
         payload["language"] = language
@@ -135,16 +156,6 @@ def perform_ocr(
     try:
         response = requests.post(OCR_SPACE_ENDPOINT, data=payload, timeout=60)
         response.raise_for_status()
-    except requests.HTTPError as exc:
-        body_preview = ""
-        if exc.response is not None:
-            body_preview = exc.response.text[:500]
-        return {
-            "success": False,
-            "text": "",
-            "pages_processed": 0,
-            "error": f"Errore HTTP da OCR.space ({exc.response.status_code if exc.response is not None else '??'}): {body_preview}",
-        }
     except requests.RequestException as exc:
         return {
             "success": False,
