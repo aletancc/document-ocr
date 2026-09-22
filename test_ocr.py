@@ -1,14 +1,4 @@
-"""
-Script di test per perform_ocr.
 
-Il PDF/immagine NON va copiato dentro il progetto né incollato in base64 da
-nessuna parte a mano: resta dove si trova sul tuo disco, e questo script lo
-legge e lo converte in base64 al volo, solo in memoria, ad ogni esecuzione.
-
-Uso:
-    python test_ocr.py /percorso/al/documento.pdf
-    python test_ocr.py /percorso/al/documento.pdf --language ita
-"""
 
 import argparse
 import base64
@@ -16,7 +6,7 @@ import mimetypes
 import os
 import sys
 
-from server import perform_ocr
+from ocr_server import perform_ocr
 
 
 def main() -> None:
