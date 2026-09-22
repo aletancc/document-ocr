@@ -30,13 +30,3 @@ gcloud run deploy ocr-mcp-server \
   --port 8080
 ```
 
-
-## 3. Note su lingua e qualità
-
-- `language="auto"` usa OCR Engine 2 di OCR.space, che riconosce automaticamente
-  più lingue tra cui l'italiano — buona scelta di default per documenti
-  Camere di Commercio.
-- Per documenti misti italiano/inglese o con terminologia molto specifica,
-  valuta di testare anche `language="ita"` esplicito e confrontare la qualità.
-- Il piano gratuito di OCR.space ha un limite di 1 MB per file: per PDF
-  scansionati multi-pagina di InfoCamere verifica se serve un piano superiore.
