@@ -1,0 +1,23 @@
+# Segreti
+.env
+ 
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+ 
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ 
+*.pdf
+*.jpg
+*.jpeg
+*.png
+*.tiff
+*.bmp
+ 
