@@ -6,7 +6,7 @@ import mimetypes
 import os
 import sys
 
-from ocr_server import perform_ocr
+from server import perform_ocr
 
 
 def main() -> None:
